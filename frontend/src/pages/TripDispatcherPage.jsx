@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import AIReasoningCard from '../components/AIReasoningCard';
 
 const TripDispatcherPage = () => {
@@ -129,13 +130,21 @@ const TripDispatcherPage = () => {
                 {trip.route}
               </div>
               <div className="flex justify-between items-center mt-2">
-                <span className={`px-3 py-1 rounded-md text-xs font-semibold ${
-                  trip.status === 'Dispatched' ? 'bg-blue-500 text-white' : 
-                  trip.status === 'Draft' ? 'bg-gray-600 text-gray-200' : 
-                  'bg-red-400 text-red-900'
-                }`}>
-                  {trip.status}
-                </span>
+                <div className="flex gap-3 items-center">
+                  <span className={`px-3 py-1 rounded-md text-xs font-semibold ${
+                    trip.status === 'Dispatched' ? 'bg-blue-500 text-white' : 
+                    trip.status === 'Draft' ? 'bg-gray-600 text-gray-200' : 
+                    'bg-red-400 text-red-900'
+                  }`}>
+                    {trip.status}
+                  </span>
+                  {trip.status === 'Dispatched' && (
+                    <Link to={`/live-tracking/${trip.id}`} className="px-3 py-1 bg-orange-600 hover:bg-orange-700 text-white rounded-md text-xs font-semibold transition-colors flex items-center gap-1">
+                      <div className="w-1.5 h-1.5 rounded-full bg-white animate-pulse"></div>
+                      Track Live
+                    </Link>
+                  )}
+                </div>
                 <span className="text-xs text-gray-500">{trip.eta}</span>
               </div>
             </div>

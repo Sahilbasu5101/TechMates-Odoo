@@ -25,9 +25,30 @@ app.use('/api/dashboard', dashboardRoutes);
 const PORT = process.env.PORT || 5000;
 const MONGO_URI = process.env.MONGO_URI || 'mongodb://localhost:27017/techmates_dispatch';
 
+const http = require('http');
+const { Server } = require('socket.io');
+
+const server = http.createServer(app);
+const io = new Server(server, {
+  cors: { origin: '*' }
+});
+
+io.on('connection', (socket) => {
+  console.log('A client connected:', socket.id);
+
+  socket.on('update_location', (data) => {
+    // Broadcast location to dispatchers
+    io.emit('location_update', data);
+  });
+
+  socket.on('disconnect', () => {
+    console.log('Client disconnected:', socket.id);
+  });
+});
+
 mongoose.connect(MONGO_URI)
   .then(() => {
     console.log('Connected to MongoDB');
-    app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+    server.listen(PORT, () => console.log(`Server running on port ${PORT}`));
   })
   .catch(err => console.error('Failed to connect to MongoDB', err));

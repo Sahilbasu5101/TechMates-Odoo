@@ -118,7 +118,7 @@ const DriversPage = () => {
           <button className="bg-orange-500 text-gray-900 font-semibold px-6 py-2 rounded-md text-sm">Suspended</button>
         </div>
         <p className="text-orange-500 text-xs italic font-medium">
-          Rule: Expired license or Suspended status -> blocked from trip assignment
+          Rule: Expired license or Suspended status &rarr; blocked from trip assignment
         </p>
       </div>
 

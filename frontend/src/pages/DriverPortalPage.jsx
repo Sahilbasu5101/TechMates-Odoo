@@ -1,6 +1,43 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { io } from 'socket.io-client';
 
 const DriverPortalPage = () => {
+  const [isSharing, setIsSharing] = useState(false);
+  const [socket, setSocket] = useState(null);
+
+  useEffect(() => {
+    const newSocket = io('http://localhost:5000');
+    setSocket(newSocket);
+    return () => newSocket.disconnect();
+  }, []);
+
+  const toggleLocationSharing = () => {
+    if (isSharing) {
+      setIsSharing(false);
+      return;
+    }
+
+    if (!navigator.geolocation) {
+      alert('Geolocation is not supported by your browser');
+      return;
+    }
+
+    setIsSharing(true);
+    navigator.geolocation.watchPosition(
+      (position) => {
+        if (socket) {
+          socket.emit('update_location', {
+            tripId: 'TR001', // Example trip ID for demo
+            vehicleId: 'VAN-05',
+            lat: position.coords.latitude,
+            lng: position.coords.longitude
+          });
+        }
+      },
+      (error) => console.error(error),
+      { enableHighAccuracy: true, maximumAge: 0 }
+    );
+  };
   const [status, setStatus] = useState('Available');
   const [complaint, setComplaint] = useState('');
 
@@ -39,6 +76,20 @@ const DriverPortalPage = () => {
       </div>
 
       <div className="bg-white p-6 rounded-lg shadow-md">
+        <div className="flex gap-4 mb-6">
+          <button 
+            onClick={toggleLocationSharing}
+            className={`flex-1 py-3 rounded-lg font-medium transition-colors ${
+              isSharing ? 'bg-red-600 hover:bg-red-700 text-white' : 'bg-blue-600 hover:bg-blue-700 text-white'
+            }`}
+          >
+            {isSharing ? 'Stop Sharing Location' : 'Start Trip & Share Location'}
+          </button>
+          <button className="flex-1 bg-orange-600 hover:bg-orange-700 text-white py-3 rounded-lg font-medium transition-colors">
+            Log Fuel/Expense
+          </button>
+        </div>
+
         <h2 className="text-xl font-semibold mb-4">Raise Complaint / Issue</h2>
         <form onSubmit={handleRaiseComplaint} className="flex flex-col gap-4">
           <textarea 
