@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, NavLink } from 'react-router-dom';
 import TripDispatcherPage from './pages/TripDispatcherPage';
 import LiveBoardPage from './pages/LiveBoardPage';
@@ -7,18 +7,38 @@ import DriversPage from './pages/DriversPage';
 import FleetPage from './pages/FleetPage';
 import DashboardPage from './pages/DashboardPage';
 import LiveTrackingPage from './pages/LiveTrackingPage';
+import FuelPage from './pages/FuelPage';
+import MaintenancePage from './pages/MaintenancePage';
+import AnalyticsPage from './features/analytics-insight/pages/AnalyticsPage';
+import SettingsPage from './pages/SettingsPage';
+import LoginPage from './pages/LoginPage';
 
 function App() {
+  const [auth, setAuth] = useState({ isAuthenticated: false, role: null });
+
+  const handleLogin = (role) => {
+    setAuth({ isAuthenticated: true, role });
+  };
+
+  const handleLogout = () => {
+    setAuth({ isAuthenticated: false, role: null });
+  };
   const navItems = [
-    { name: 'Dashboard', path: '/dashboard' },
-    { name: 'Fleet', path: '/fleet' },
-    { name: 'Drivers', path: '/drivers' },
-    { name: 'Trips', path: '/' },
-    { name: 'Maintenance', path: '/maintenance' },
-    { name: 'Fuel & Expenses', path: '/fuel' },
-    { name: 'Analytics', path: '/analytics' },
-    { name: 'Settings', path: '/settings' },
+    { name: 'Dashboard', path: '/dashboard', roles: ['Dispatcher', 'Fleet Manager'] },
+    { name: 'Fleet', path: '/fleet', roles: ['Fleet Manager'] },
+    { name: 'Drivers', path: '/drivers', roles: ['Safety Officer', 'Fleet Manager'] },
+    { name: 'Trips', path: '/', roles: ['Dispatcher'] },
+    { name: 'Maintenance', path: '/maintenance', roles: ['Fleet Manager'] },
+    { name: 'Fuel & Expenses', path: '/fuel', roles: ['Financial Analyst'] },
+    { name: 'Analytics', path: '/analytics', roles: ['Financial Analyst', 'Fleet Manager'] },
+    { name: 'Settings', path: '/settings', roles: ['Fleet Manager', 'Dispatcher', 'Safety Officer', 'Financial Analyst'] },
   ];
+
+  const allowedNavItems = navItems.filter(item => item.roles.includes(auth.role));
+
+  if (!auth.isAuthenticated) {
+    return <LoginPage onLogin={handleLogin} />;
+  }
 
   return (
     <Router>
@@ -29,7 +49,7 @@ function App() {
             <h1 className="text-2xl font-bold text-white tracking-wide">TransitOps</h1>
           </div>
           <nav className="flex-1 px-4 space-y-2 mt-4">
-            {navItems.map((item) => (
+            {allowedNavItems.map((item) => (
               <NavLink
                 key={item.name}
                 to={item.path}
@@ -59,10 +79,13 @@ function App() {
               />
             </div>
             <div className="flex items-center gap-4">
-              <span className="text-sm">Raven K.</span>
-              <div className="h-8 w-8 rounded-full bg-blue-600 flex items-center justify-center text-sm font-bold text-white shadow-lg border border-blue-400">
-                RK
+              <div className="flex flex-col items-end">
+                <span className="text-sm text-white font-medium">Raven K.</span>
+                <span className="text-[10px] text-gray-500 uppercase tracking-widest font-bold">{auth.role}</span>
               </div>
+              <button onClick={handleLogout} className="h-8 w-8 rounded-full bg-blue-600 hover:bg-red-500 transition-colors flex items-center justify-center text-sm font-bold text-white shadow-lg border border-blue-400 hover:border-red-400" title="Log Out">
+                RK
+              </button>
             </div>
           </header>
 
@@ -77,6 +100,10 @@ function App() {
               <Route path="/drivers" element={<DriversPage />} />
               <Route path="/live" element={<LiveBoardPage />} />
               <Route path="/driver" element={<DriverPortalPage />} />
+              <Route path="/fuel" element={<FuelPage />} />
+              <Route path="/maintenance" element={<MaintenancePage />} />
+              <Route path="/analytics" element={<AnalyticsPage />} />
+              <Route path="/settings" element={<SettingsPage />} />
             </Routes>
           </div>
         </main>

@@ -13,6 +13,9 @@ const tripSchema = new mongoose.Schema({
     default: 'Draft'
   },
   aiReasoning: { type: String }, // To store AI approval/rejection details
+  revenue: { type: Number, default: 0 },
+  fuelConsumed: { type: Number, default: 0 },
+  completedAt: { type: Date }
 }, { timestamps: true });
 
 module.exports = mongoose.model('Trip', tripSchema);
