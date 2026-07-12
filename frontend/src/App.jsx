@@ -5,6 +5,7 @@ import LiveBoardPage from './pages/LiveBoardPage';
 import DriverPortalPage from './pages/DriverPortalPage';
 import DriversPage from './pages/DriversPage';
 import FleetPage from './pages/FleetPage';
+import DashboardPage from './pages/DashboardPage';
 
 function App() {
   const navItems = [
@@ -67,6 +68,7 @@ function App() {
           {/* Page Content */}
           <div className="flex-1 overflow-y-auto p-8 bg-[#181818]">
             <Routes>
+              <Route path="/dashboard" element={<DashboardPage />} />
               <Route path="/" element={<TripDispatcherPage />} />
               <Route path="/fleet" element={<FleetPage />} />
               <Route path="/drivers" element={<DriversPage />} />

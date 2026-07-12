@@ -2,6 +2,7 @@
 node_modules/
 backend/express/node_modules/
 frontend/node_modules/
+**/node_modules/
 .pnp
 .pnp.js
 
@@ -14,6 +15,9 @@ frontend/build/
 
 # Environment Variables
 .env
+.env.*
+**/.env
+**/.env.*
 .env.local
 .env.development.local
 .env.test.local
@@ -27,6 +31,10 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
+
+# Python / ML
+__pycache__/
+*.pyc
 
 # OS Files
 .DS_Store

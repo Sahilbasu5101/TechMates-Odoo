@@ -61,7 +61,7 @@ const TripDispatcherPage = () => {
 
         <div>
           <h3 className="text-xs uppercase tracking-widest text-gray-500 mb-4 font-semibold">Create Trip</h3>
-          <form className="flex flex-col gap-4">
+          <form className="flex flex-col gap-4" onSubmit={handleDispatch}>
             <div className="flex flex-col gap-1">
               <label className="text-xs text-gray-400">SOURCE</label>
               <input className="bg-transparent border border-gray-600 rounded-md p-2 text-sm focus:border-orange-500 outline-none" value={formData.source} onChange={(e) => setFormData({...formData, source: e.target.value})} placeholder="e.g. Gandhinagar Depot" />
@@ -104,7 +104,7 @@ const TripDispatcherPage = () => {
             )}
 
             <div className="flex gap-4 mt-2">
-              <button onClick={handleDispatch} className="flex-1 bg-gray-700/50 text-gray-400 py-2 rounded-md font-medium cursor-not-allowed border border-gray-600">
+              <button type="submit" className="flex-1 bg-gray-700/50 text-gray-400 py-2 rounded-md font-medium cursor-not-allowed border border-gray-600">
                 Dispatch (disabled)
               </button>
               <button type="button" className="flex-1 bg-red-900/40 text-red-400 py-2 rounded-md font-medium hover:bg-red-900/60 transition-colors border border-red-900">

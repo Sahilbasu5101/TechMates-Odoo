@@ -8,6 +8,7 @@ const driverPortalRoutes = require('./routes/driverPortal.routes');
 const driverRoutes = require('./routes/driver.routes');
 const vehicleRoutes = require('./routes/vehicle.routes');
 const maintenanceRoutes = require('./routes/maintenance.routes');
+const dashboardRoutes = require('./routes/dashboard.routes');
 
 const app = express();
 
@@ -19,6 +20,7 @@ app.use('/api/driver-portal', driverPortalRoutes);
 app.use('/api/drivers', driverRoutes);
 app.use('/api/vehicles', vehicleRoutes);
 app.use('/api/maintenance', maintenanceRoutes);
+app.use('/api/dashboard', dashboardRoutes);
 
 const PORT = process.env.PORT || 5000;
 const MONGO_URI = process.env.MONGO_URI || 'mongodb://localhost:27017/techmates_dispatch';
