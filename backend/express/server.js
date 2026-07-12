@@ -5,6 +5,8 @@ require('dotenv').config();
 
 const tripRoutes = require('./routes/trip.routes');
 const driverPortalRoutes = require('./routes/driverPortal.routes');
+const driverRoutes = require('./routes/driver.routes');
+const vehicleRoutes = require('./routes/vehicle.routes');
 
 const app = express();
 
@@ -13,6 +15,8 @@ app.use(express.json());
 
 app.use('/api/trips', tripRoutes);
 app.use('/api/driver-portal', driverPortalRoutes);
+app.use('/api/drivers', driverRoutes);
+app.use('/api/vehicles', vehicleRoutes);
 
 const PORT = process.env.PORT || 5000;
 const MONGO_URI = process.env.MONGO_URI || 'mongodb://localhost:27017/techmates_dispatch';

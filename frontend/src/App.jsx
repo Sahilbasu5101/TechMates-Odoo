@@ -3,6 +3,8 @@ import { BrowserRouter as Router, Routes, Route, NavLink } from 'react-router-do
 import TripDispatcherPage from './pages/TripDispatcherPage';
 import LiveBoardPage from './pages/LiveBoardPage';
 import DriverPortalPage from './pages/DriverPortalPage';
+import DriversPage from './pages/DriversPage';
+import FleetPage from './pages/FleetPage';
 
 function App() {
   const navItems = [
@@ -66,6 +68,8 @@ function App() {
           <div className="flex-1 overflow-y-auto p-8 bg-[#181818]">
             <Routes>
               <Route path="/" element={<TripDispatcherPage />} />
+              <Route path="/fleet" element={<FleetPage />} />
+              <Route path="/drivers" element={<DriversPage />} />
               <Route path="/live" element={<LiveBoardPage />} />
               <Route path="/driver" element={<DriverPortalPage />} />
             </Routes>
